@@ -1,5 +1,56 @@
-bin/
-obj/
-/packages/
-riderModule.iml
-/_ReSharper.Caches/
+# macOS
+.DS_Store
+
+# -------------------------------
+# .NET / C# (.NET Core, SDK-style)
+# -------------------------------
+**/bin/
+**/obj/
+**/*.user
+**/*.suo
+**/*.userosscache
+**/*.sln.docstates
+
+# Visual Studio
+.vscode/
+*.code-workspace
+
+# Rider
+.idea/
+
+# Logs
+**/logs/
+*.log
+
+# -------------------------------
+# Node.js / Next.js (Frontend)
+# -------------------------------
+# Node modules
+**/node_modules/
+
+# Next.js build output
+**/.next/
+**/out/
+
+# Production build
+**/dist/
+
+# Vercel
+.vercel/
+
+# dotenv environment variables
+**/.env
+**/.env.local
+**/.env.*.local
+
+# npm / yarn / pnpm lock files (optional to ignore — depends on your workflow)
+# **/package-lock.json
+# **/yarn.lock
+# **/pnpm-lock.yaml
+
+# -------------------------------
+# OS-generated files
+# -------------------------------
+Thumbs.db
+ehthumbs.db
+Desktop.ini
