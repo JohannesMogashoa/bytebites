@@ -78,13 +78,8 @@ public class RecipeRepository(ApplicationDbContext dbContext) : IRecipeRepositor
         {
             throw new KeyNotFoundException("Recipe not found or has been deleted.");
         }
-
-        // Soft delete the recipe
-        recipe.IsDeleted = true;
-        recipe.UpdatedAt = DateTime.UtcNow;
-        recipe.UpdatedBy = "system"; // Replace with actual user context if available
         
-        dbContext.Update(recipe);
+        dbContext.Remove(recipe);
         await dbContext.SaveChangesAsync();
     }
 }
