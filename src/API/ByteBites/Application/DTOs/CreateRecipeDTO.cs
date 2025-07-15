@@ -1,3 +1,5 @@
+using FluentValidation;
+
 namespace ByteBites.Application.DTOs;
 
 public record CreateRecipeDTO
@@ -23,5 +25,15 @@ public static class CreateRecipeDTOExtensions
             CookingTime = createRecipeDto.CookingTime,
             DietaryTags = createRecipeDto.DietaryTags,
         };
+    }
+}
+
+public class CreateRecipeDTOValidator : AbstractValidator<CreateRecipeDTO>
+{
+    public CreateRecipeDTOValidator()
+    {
+        RuleFor(r => r.Title).NotNull().NotEmpty();
+        RuleFor(r => r.Description).NotNull().NotEmpty();
+        RuleFor(r => r.CookingTime).GreaterThan(0);
     }
 }

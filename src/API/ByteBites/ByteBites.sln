@@ -2,6 +2,8 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ByteBites", "ByteBites.csproj", "{7EBDE34F-4766-41E1-85D6-9608EFDA65DC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ByteBites.Tests", "..\ByteBites.Tests\ByteBites.Tests.csproj", "{727D2379-083C-4347-9BD4-7EFE34451548}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +14,9 @@ Global
 		{7EBDE34F-4766-41E1-85D6-9608EFDA65DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7EBDE34F-4766-41E1-85D6-9608EFDA65DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7EBDE34F-4766-41E1-85D6-9608EFDA65DC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{727D2379-083C-4347-9BD4-7EFE34451548}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{727D2379-083C-4347-9BD4-7EFE34451548}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{727D2379-083C-4347-9BD4-7EFE34451548}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{727D2379-083C-4347-9BD4-7EFE34451548}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
