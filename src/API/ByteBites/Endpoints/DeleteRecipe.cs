@@ -18,6 +18,7 @@ public class DeleteRecipe : IEndpoint
                 return Results.NoContent();
             })
             .WithTags("Recipes")
-            .WithName("DeleteRecipe");
+            .WithName("DeleteRecipe")
+            .RequireAuthorization();
     }
 }

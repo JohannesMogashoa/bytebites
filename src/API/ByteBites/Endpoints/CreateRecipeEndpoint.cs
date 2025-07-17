@@ -14,6 +14,7 @@ public class CreateRecipeEndpoint : IEndpoint
                 return Results.Created($"/api/recipes/{newRecipe.Id}", newRecipe.ToDto());
             })
             .WithTags("Recipes")
-            .WithName("CreateRecipe");
+            .WithName("CreateRecipe")
+            .RequireAuthorization();
     }
 }

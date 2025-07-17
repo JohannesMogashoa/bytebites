@@ -33,10 +33,7 @@ export const env = createEnv({
   runtimeEnv: {
     AUTH_SECRET: process.env.AUTH_SECRET,
     NODE_ENV: process.env.NODE_ENV,
-    BACKEND_API_URL:
-      process.env.NODE_ENV === "development"
-        ? process.env.BACKEND_API_URL_HTTP
-        : process.env.BACKEND_API_URL,
+    BACKEND_API_URL: process.env.BACKEND_API_URL,
     // NEXT_PUBLIC_CLIENTVAR: process.env.NEXT_PUBLIC_CLIENTVAR,
   },
   /**

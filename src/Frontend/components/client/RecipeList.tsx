@@ -9,12 +9,12 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
+} from "components/ui/table";
 import { use, useState } from "react";
 
-import { Button } from "@/components/ui/button";
+import { Button } from "components/ui/button";
 import CreateRecipe from "./CreateRecipe";
-import type { IRecipeListItem } from "@/lib/interfaces/IRecipeListItem";
+import type { IRecipeListItem } from "lib/interfaces/IRecipeListItem";
 import UpdateRecipe from "./UpdateRecipe";
 import moment from "moment";
 

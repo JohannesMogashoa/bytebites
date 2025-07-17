@@ -1,5 +1,5 @@
-import { UpdateRecipeSchema } from "@/lib/recipe-schemas";
-import { getRecipe, updateRecipe } from "@/server/create-recipe";
+import { UpdateRecipeSchema } from "lib/recipe-schemas";
+import { getRecipe, updateRecipe } from "server/create-recipe";
 import { zodResolver } from "@hookform/resolvers/zod";
 import React, {
   useEffect,
@@ -16,9 +16,9 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
+} from "components/ui/form";
+import { Dialog, DialogContent, DialogTitle } from "components/ui/dialog";
+import { Input } from "components/ui/input";
 import { Button } from "../ui/button";
 import SkeletonLoader from "./SkeletonLoader";
 

@@ -1,17 +1,26 @@
 "use server";
 
-import type { CreateRecipeDTO, UpdateRecipeDTO } from "@/lib/recipe-schemas";
+import type { CreateRecipeDTO, UpdateRecipeDTO } from "lib/recipe-schemas";
 
 import type { IRecipeDetail } from "../lib/interfaces/IRecipeDetail";
-import { env } from "@/env";
+import type { IRecipeListItem } from "@/lib/interfaces/IRecipeListItem";
+import { auth0 } from "@/lib/auth0";
+import { env } from "env";
+
+const baseUrl = `${env.BACKEND_API_URL}/api/recipes`;
 
 export async function createRecipe(
   data: CreateRecipeDTO,
 ): Promise<IRecipeDetail> {
-  const response = await fetch(`${env.BACKEND_API_URL}/api/recipes`, {
+  const token = await auth0.getAccessToken();
+
+  console.log(token);
+
+  const response = await fetch(baseUrl, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
+      Authorization: `Bearer ${token.token}`,
     },
     body: JSON.stringify(data),
   });
@@ -27,7 +36,7 @@ export async function updateRecipe(
   id: string,
   data: UpdateRecipeDTO,
 ): Promise<boolean> {
-  const response = await fetch(`${env.BACKEND_API_URL}/api/recipes/${id}`, {
+  const response = await fetch(`${baseUrl}/${id}`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
@@ -43,7 +52,7 @@ export async function updateRecipe(
 }
 
 export async function deleteRecipe(id: string): Promise<void> {
-  const response = await fetch(`${env.BACKEND_API_URL}/api/recipes/${id}`, {
+  const response = await fetch(`${baseUrl}/${id}`, {
     method: "DELETE",
   });
 
@@ -52,8 +61,18 @@ export async function deleteRecipe(id: string): Promise<void> {
   }
 }
 
+export async function getRecipies(): Promise<IRecipeListItem[]> {
+  const response = await fetch(baseUrl);
+
+  if (!response.ok) {
+    throw new Error("Failed to fetch recipes");
+  }
+
+  return (await response.json()) as IRecipeListItem[];
+}
+
 export async function getRecipe(id: string): Promise<IRecipeDetail> {
-  const response = await fetch(`${env.BACKEND_API_URL}/api/recipes/${id}`);
+  const response = await fetch(`${baseUrl}/${id}`);
 
   if (!response.ok) {
     throw new Error("Failed to fetch recipe");

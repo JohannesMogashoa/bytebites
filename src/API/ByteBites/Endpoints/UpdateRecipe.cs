@@ -27,6 +27,7 @@ public class UpdateRecipe : IEndpoint
                 return Results.Ok();
             })
             .WithTags("Recipes")
-            .WithName("UpdateRecipe");
+            .WithName("UpdateRecipe")
+            .RequireAuthorization();
     }
 }

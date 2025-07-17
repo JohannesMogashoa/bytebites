@@ -1,6 +1,6 @@
 "use client";
 
-import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogTitle } from "components/ui/dialog";
 import { type Dispatch, type SetStateAction } from "react";
 import {
   Form,
@@ -9,12 +9,12 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
+} from "components/ui/form";
 
 import { Button } from "../ui/button";
-import { CreateRecipeSchema } from "@/lib/recipe-schemas";
-import { createRecipe } from "@/server/create-recipe";
-import { Input } from "@/components/ui/input";
+import { CreateRecipeSchema } from "lib/recipe-schemas";
+import { createRecipe } from "server/create-recipe";
+import { Input } from "components/ui/input";
 import { useForm } from "react-hook-form";
 import { type z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
