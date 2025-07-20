@@ -1,14 +1,4 @@
-import { UpdateRecipeSchema } from "lib/recipe-schemas";
-import { getRecipe, updateRecipe } from "server/create-recipe";
-import { zodResolver } from "@hookform/resolvers/zod";
-import React, {
-  useEffect,
-  useState,
-  type Dispatch,
-  type SetStateAction,
-} from "react";
-import { useForm } from "react-hook-form";
-import type z from "zod";
+import { Dialog, DialogContent, DialogTitle } from "components/ui/dialog";
 import {
   Form,
   FormControl,
@@ -17,10 +7,16 @@ import {
   FormLabel,
   FormMessage,
 } from "components/ui/form";
-import { Dialog, DialogContent, DialogTitle } from "components/ui/dialog";
-import { Input } from "components/ui/input";
+import React, { useEffect, useState } from "react";
+import { getRecipe, updateRecipe } from "server/create-recipe";
+
 import { Button } from "../ui/button";
+import { Input } from "components/ui/input";
 import SkeletonLoader from "./SkeletonLoader";
+import { UpdateRecipeSchema } from "lib/recipe-schemas";
+import { useForm } from "react-hook-form";
+import type z from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 const UpdateRecipe = ({
   open,
@@ -53,7 +49,7 @@ const UpdateRecipe = ({
       }
     };
 
-    fetchData();
+    void fetchData();
   }, [id]);
 
   const form = useForm<z.infer<typeof UpdateRecipeSchema>>({

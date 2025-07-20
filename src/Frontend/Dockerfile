@@ -5,8 +5,7 @@ RUN apk add --no-cache libc6-compat openssl
 WORKDIR /app
 
 # Install dependencies based on the preferred package manager
-
-COPY package.json yarn.lock* package-lock.json* pnpm-lock.yaml\* ./
+COPY package.json yarn.lock* package-lock.json* pnpm-lock.yaml* ./
 
 RUN \
     if [ -f yarn.lock ]; then yarn --frozen-lockfile; \
@@ -22,8 +21,7 @@ WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
-# ENV NEXT_TELEMETRY_DISABLED 1
-
+# Build the application
 RUN \
     if [ -f yarn.lock ]; then SKIP_ENV_VALIDATION=1 yarn build; \
     elif [ -f package-lock.json ]; then SKIP_ENV_VALIDATION=1 npm run build; \
@@ -36,19 +34,21 @@ RUN \
 FROM --platform=linux/amd64 gcr.io/distroless/nodejs20-debian12 AS runner
 WORKDIR /app
 
+# Set environment variables
 ENV NODE_ENV=production
 ENV BACKEND_API_URL=http://bytebytes-api:8080
 
-# ENV NEXT_TELEMETRY_DISABLED 1
-
+# Copy necessary files from the builder stage
 COPY --from=builder /app/next.config.js ./
 COPY --from=builder /app/public ./public
 COPY --from=builder /app/package.json ./package.json
+COPY --from=builder /app/.next ./.next
 
-COPY --from=builder /app/.next/standalone ./
-COPY --from=builder /app/.next/static ./.next/static
+# Copy the .env.local file
+COPY .env.local .env
 
+# Expose the application port
 EXPOSE 3000
-ENV PORT 3000
 
-CMD ["server.js"]
+# Start the application
+CMD ["node", ".next/server"]
