@@ -4,6 +4,7 @@ using ByteBites.Application.Common.Interfaces;
 using ByteBites.Domain;
 using ByteBites.Infrastructure;
 using ByteBites.Infrastructure.Data;
+using ByteBites.Infrastructure.Interceptors;
 using ByteBites.Infrastructure.Repository;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -12,6 +13,8 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddHttpContextAccessor();
 
 // Add services to the container.
 var domain = $"https://{builder.Configuration["Auth0:Domain"]}/";
@@ -29,16 +32,21 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
-builder.Services.AddAuthorization(options =>
+builder.Services.AddAuthorization();
+
+builder.Services.AddScoped<ICurrentUserService, CurrentUserService>();
+builder.Services.AddSingleton<IAuthorizationHandler, HasScopeHandler>();
+builder.Services.AddSingleton<AuditingInterceptor>();
+builder.Services.AddSingleton<SoftDeleteInterceptor>();
+
+builder.Services.AddDbContext<ApplicationDbContext>((sp, options) =>
 {
-    options.AddPolicy("read:messages", policy => policy.Requirements.Add(new 
-        HasScopeRequirement("read:messages", domain)));
+    options.UseInMemoryDatabase("ByteBitesDb");
+    options.AddInterceptors(
+        sp.GetRequiredService<AuditingInterceptor>(),
+        sp.GetRequiredService<SoftDeleteInterceptor>());
 });
 
-builder.Services.AddSingleton<IAuthorizationHandler, HasScopeHandler>();
-
-builder.Services.AddDbContext<ApplicationDbContext>(
-    opt => opt.UseInMemoryDatabase("ByteBitesDb"));
 builder.Services.AddScoped<IRecipeRepository, RecipeRepository>();
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
@@ -80,6 +88,23 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+    
+    using (var scope = app.Services.CreateScope())
+    {
+        var services = scope.ServiceProvider;
+        try
+        {
+            var context = services.GetRequiredService<ApplicationDbContext>();
+            //context.Database.Migrate(); // Apply pending migrations
+            // Seed data might need to be adjusted if it implies a user ID for seeded recipes
+            SeedData.Initialize(services);
+        }
+        catch (Exception ex)
+        {
+            var logger = services.GetRequiredService<ILogger<Program>>();
+            logger.LogError(ex, "An error occurred creating or seeding the DB.");
+        }
+    }
 }
 
 app.UseAuthentication();

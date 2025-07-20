@@ -1,20 +1,33 @@
+using System.ComponentModel.DataAnnotations;
 using FluentValidation;
 
 namespace ByteBites.Application.DTOs;
 
-public record CreateRecipeDTO
+public record CreateRecipeDto
 {
+    [Required(ErrorMessage = "Title is required.")]
+    [MaxLength(100, ErrorMessage = "Title cannot exceed 200 characters.")]
     public string Title { get; set; } = string.Empty;
+    
+    [Required(ErrorMessage = "Description is required.")]
+    [MaxLength(250, ErrorMessage = "Description cannot exceed 200 characters.")]
     public string Description { get; set; } = string.Empty;
+
+    [Required(ErrorMessage = "Ingredients are required.")]
     public string Ingredients { get; set; } = string.Empty;
+
+    [Required(ErrorMessage = "Steps are required.")]
     public string Steps { get; set; } = string.Empty;
-    public decimal CookingTime { get; set; }
-    public string DietaryTags { get; set; } = string.Empty;
+
+    [Range(1, 1440, ErrorMessage = "Cooking time must be between 1 minute and 24 hours.")]
+    public int CookingTime { get; set; }
+
+    public string? DietaryTags { get; set; }
 }
 
-public static class CreateRecipeDTOExtensions
+public static class CreateRecipeDtoExtensions
 {
-    public static Domain.Recipe ToDomainModel(this CreateRecipeDTO createRecipeDto)
+    public static Domain.Recipe ToDomainModel(this CreateRecipeDto createRecipeDto)
     {
         return new Domain.Recipe
         {
@@ -28,9 +41,9 @@ public static class CreateRecipeDTOExtensions
     }
 }
 
-public class CreateRecipeDTOValidator : AbstractValidator<CreateRecipeDTO>
+public class CreateRecipeDtoValidator : AbstractValidator<CreateRecipeDto>
 {
-    public CreateRecipeDTOValidator()
+    public CreateRecipeDtoValidator()
     {
         RuleFor(r => r.Title).NotNull().NotEmpty();
         RuleFor(r => r.Description).NotNull().NotEmpty();

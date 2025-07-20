@@ -1,0 +1,59 @@
+services:
+    bytebites-api:
+        build:
+            context: ./src/API/ByteBites
+            dockerfile: Dockerfile
+        # Map container port 8080 to host port 5000
+        ports:
+            - "5000:8080"
+        environment:
+            # Set ASP.NET Core environment for the API
+            ASPNETCORE_URLS: http://+:8080
+            ASPNETCORE_ENVIRONMENT: Development # Or Production, based on your API needs
+            # Example: Connection string for development
+            # ConnectionStrings__DefaultConnection: "Server=db;Port=5432;Database=your_db;Username=user;Password=password"
+        volumes:
+            # Optional: Mount your source code for hot-reloading during development
+            - ./src/API/ByteBites:/app:ro # Read-only mount for consistency
+        restart: always
+
+    frontend:
+        build:
+            context: ./src/Frontend
+            dockerfile: Dockerfile
+        # Map container port 3000 to host port 3000
+        ports:
+            - "3000:3000"
+        environment:
+            # Environment variables for the Next.js server-side (runtime)
+            # These are NOT prefixed with NEXT_PUBLIC_ in your .env.local
+            # and are crucial for NextAuth.js and server-side API calls.
+            AUTH_SECRET: "xLREQmGYQ/WrHYI/z5H1CEw8xElOLuVCpJ2CkuJrA3c="
+            AUTH0_SECRET: "ba8833c26c879f8e2fb9039ce8f2e0871e43153b845b35840f570ea936c6b953"
+            APP_BASE_URL: "http://localhost:3000" # Use localhost for host-exposed port for external callbacks
+            AUTH0_CLIENT_SECRET: "H2BerS4AifCncPCE1Q0988GrpvLSbE7EWGOFdyi9pyBBs4-Kp3cL7_k0z99yLab_"
+            BACKEND_API_URL: "http://bytebites-api:8080" # Points to the internal Docker service name and port
+
+            # Environment variables for the Next.js client-side (build-time)
+            # These are prefixed with NEXT_PUBLIC_ in your .env.local and in the Dockerfile,
+            # but it's good practice to also define them here for clarity and consistency
+            # if they are used by your build process or on the server-side as well.
+            AUTH0_DOMAIN: "https://kodestallion.au.auth0.com"
+            AUTH0_CLIENT_ID: "nTowNxKKMbXUhrKFRPGdck47ACmdn59z"
+            AUTH0_AUDIENCE: "https://bytebites-api.johannesmogashoa.co.za"
+            AUTH0_SCOPE: "openid profile email read:recipes"
+
+        volumes:
+            # Optional: Mount your source code for hot-reloading during development
+            - ./src/Frontend:/app # Mounting can interfere with Next.js build output in production containers
+            - /app/node_modules # Important to prevent host's node_modules from overwriting container's
+
+        # Ensure the frontend starts after the API is ready (optional, but good for local dev)
+        depends_on:
+            - bytebites-api
+        restart: always
+
+# Networks are implicitly created, but you can define them explicitly for better isolation
+networks:
+    default:
+        # driver: bridge # Default bridge network is fine

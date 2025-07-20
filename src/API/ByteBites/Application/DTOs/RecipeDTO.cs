@@ -1,25 +1,26 @@
 namespace ByteBites.Application.DTOs;
 
-public record RecipeDTO
+public record RecipeDto
 {
     public Guid Id { get; set; }
-    public string Title { get; set; }
-    public string Description { get; set; }
-    public string Ingredients { get; set; }
-    public string Steps { get; set; }
-    public decimal CookingTime { get; set; }
-    public string DietaryTags { get; set; }
-    public DateTime CreatedAt { get; set; }
-    public DateTime? UpdatedAt { get; set; }
-    public string CreatedBy { get; set; }
+    public string Title { get; set; } = string.Empty;
+    public string Description { get; set; } = string.Empty;
+    public string Ingredients { get; set; } = string.Empty;
+    public string Steps { get; set; } = string.Empty;
+    public int CookingTime { get; set; }
+    public string? DietaryTags { get; set; } = string.Empty;
+    public DateTimeOffset CreatedAt { get; set; }
+    public DateTimeOffset? UpdatedAt { get; set; }
+    public string? CreatedBy { get; set; }
     public string? UpdatedBy { get; set; }
+    public string UserId { get; set; } = string.Empty;
 }
 
-public static class RecipeDTOExtensions
+public static class RecipeDtoExtensions
 {
-    public static RecipeDTO ToDto(this Domain.Recipe recipe)
+    public static RecipeDto ToDto(this Domain.Recipe recipe)
     {
-        return new RecipeDTO
+        return new RecipeDto
         {
             Id = recipe.Id,
             Title = recipe.Title,
@@ -31,7 +32,8 @@ public static class RecipeDTOExtensions
             CreatedAt = recipe.CreatedAt,
             UpdatedAt = recipe.UpdatedAt,
             CreatedBy = recipe.CreatedBy,
-            UpdatedBy = recipe.UpdatedBy
+            UpdatedBy = recipe.UpdatedBy,
+            UserId = recipe.UserId,
         };
     }
 }

@@ -2,7 +2,7 @@ using ByteBites.Application.Common.Interfaces;
 
 namespace ByteBites.Endpoints;
 
-public class DeleteRecipe : IEndpoint
+public class DeleteRecipeEndpoint : IEndpoint
 {
     public void MapEndpoint(IEndpointRouteBuilder app)
     {

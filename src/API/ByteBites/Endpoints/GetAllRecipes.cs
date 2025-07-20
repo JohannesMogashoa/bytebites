@@ -14,6 +14,6 @@ public class GetAllRecipes : IEndpoint
 			})
 			.WithDescription("Get all recipes")
 			.WithTags("Recipes")
-			.Produces<List<RecipeListItemDTO>>(StatusCodes.Status200OK);
+			.Produces<List<RecipeListItemDto>>(StatusCodes.Status200OK);
 	}
 }

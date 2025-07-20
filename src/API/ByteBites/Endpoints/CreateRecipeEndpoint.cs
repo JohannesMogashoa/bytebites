@@ -7,7 +7,7 @@ public class CreateRecipeEndpoint : IEndpoint
 {
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
-        app.MapPost("/api/recipes", async (CreateRecipeDTO createRecipeDto, IRecipeRepository recipeRepository) =>
+        app.MapPost("/api/recipes", async (CreateRecipeDto createRecipeDto, IRecipeRepository recipeRepository) =>
             {
                 var newRecipe = createRecipeDto.ToDomainModel();
                 await recipeRepository.AddRecipe(newRecipe);

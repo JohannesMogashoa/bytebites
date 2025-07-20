@@ -1,4 +1,5 @@
 using ByteBites.Application.Common.Interfaces;
+using ByteBites.Application.DTOs;
 using ByteBites.Domain;
 using ByteBites.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
@@ -81,5 +82,36 @@ public class RecipeRepository(ApplicationDbContext dbContext) : IRecipeRepositor
         
         dbContext.Remove(recipe);
         await dbContext.SaveChangesAsync();
+    }
+
+    public async Task<IEnumerable<Recipe>> FilterRecipes(FilterRecipeDto filter)
+    {
+        // Simulate asynchronous operation
+        await Task.Delay(100);
+        
+        // Build the query based on the filter criteria
+        var query = dbContext.Recipes.AsNoTracking().AsEnumerable();
+
+        if (!string.IsNullOrEmpty(filter.Title))
+        {
+            query = query.Where(r => r.Title.Contains(filter.Title, StringComparison.OrdinalIgnoreCase));
+        }
+
+        if (!string.IsNullOrEmpty(filter.DietaryTags))
+        {
+            query = query.Where(r => r.DietaryTags.Contains(filter.DietaryTags, StringComparison.OrdinalIgnoreCase));
+        }
+        
+        if (!string.IsNullOrEmpty(filter.Ingredients))
+        {
+            query = query.Where(r => r.Ingredients.Contains(filter.Ingredients, StringComparison.OrdinalIgnoreCase));
+        }
+
+        if (filter.CookingTime.HasValue)
+        {
+            query = query.Where(r => r.CookingTime <= filter.CookingTime.Value);
+        }
+
+        return query;
     }
 }

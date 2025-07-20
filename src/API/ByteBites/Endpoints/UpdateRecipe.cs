@@ -7,7 +7,7 @@ public class UpdateRecipe : IEndpoint
 {
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
-        app.MapPut("/api/recipes/{id:guid}", async (Guid id, UpdateRecipeDTO updateRecipeDto, IRecipeRepository recipeRepository) =>
+        app.MapPut("/api/recipes/{id:guid}", async (Guid id, UpdateRecipeDto updateRecipeDto, IRecipeRepository recipeRepository) =>
             {
                 if(id == Guid.Empty){
                     return Results.BadRequest("Invalid recipe ID.");
