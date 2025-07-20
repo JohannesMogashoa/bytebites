@@ -4,7 +4,6 @@ import type { CreateRecipeDTO, UpdateRecipeDTO } from "lib/recipe-schemas";
 
 import type { IRecipeDetail } from "../lib/interfaces/IRecipeDetail";
 import type { IRecipeListItem } from "@/lib/interfaces/IRecipeListItem";
-import { auth0 } from "@/lib/auth0";
 import { env } from "env";
 
 const baseUrl = `${env.BACKEND_API_URL}/api/recipes`;
@@ -12,15 +11,11 @@ const baseUrl = `${env.BACKEND_API_URL}/api/recipes`;
 export async function createRecipe(
   data: CreateRecipeDTO,
 ): Promise<IRecipeDetail> {
-  const token = await auth0.getAccessToken();
-
-  console.log(token);
-
   const response = await fetch(baseUrl, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${token.token}`,
+      //   Authorization: `Bearer ${token.token}`,
     },
     body: JSON.stringify(data),
   });
