@@ -3,6 +3,7 @@
 import "@/styles/globals.css";
 
 import { Auth0Provider } from "@auth0/nextjs-auth0";
+import { RecipeStoreProvider } from "@/providers/recipes-store-provider";
 
 export default function RootLayout({
   children,
@@ -10,7 +11,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <Auth0Provider>{children}</Auth0Provider>
+        <Auth0Provider>
+          <RecipeStoreProvider>{children}</RecipeStoreProvider>
+        </Auth0Provider>
       </body>
     </html>
   );

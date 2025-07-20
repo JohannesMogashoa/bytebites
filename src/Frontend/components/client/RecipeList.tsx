@@ -18,12 +18,14 @@ import type { IRecipeListItem } from "lib/interfaces/IRecipeListItem";
 import UpdateRecipe from "./UpdateRecipe";
 import { deleteRecipeById } from "@/server/create-recipe";
 import moment from "moment";
+import { useRecipeStore } from "@/providers/recipes-store-provider";
 
 type RecipeListProps = {
   recipes: Promise<IRecipeListItem[]>;
 };
 
 const RecipeList = ({ recipes }: RecipeListProps) => {
+  // const {recipes, setRecipes} = useRecipeStore((state) => state);
   const [open, setOpen] = useState(false);
   const [openEdit, setEditOpen] = useState(false);
   const [recipe, setRecipe] = useState<IRecipeListItem | null>(null);

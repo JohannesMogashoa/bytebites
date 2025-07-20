@@ -23,6 +23,14 @@ export const UpdateRecipeSchema = z.object({
   dietaryTags: z.string(),
 });
 
+export const FilterRecipesSchema = z.object({
+  title: z.string().optional(),
+  dietaryTags: z.string().optional(),
+  ingredients: z.string().optional(),
+  cookingTime: z.coerce.number().optional(),
+});
+
 // TypeScript types derived from Zod schemas
 export type CreateRecipeDTO = z.infer<typeof CreateRecipeSchema>;
 export type UpdateRecipeDTO = z.infer<typeof UpdateRecipeSchema>;
+export type FilterRecipesDTO = z.infer<typeof FilterRecipesSchema>;

@@ -1,6 +1,10 @@
 "use server";
 
-import type { CreateRecipeDTO, UpdateRecipeDTO } from "lib/recipe-schemas";
+import type {
+  CreateRecipeDTO,
+  FilterRecipesDTO,
+  UpdateRecipeDTO,
+} from "lib/recipe-schemas";
 
 import type { IRecipeDetail } from "../lib/interfaces/IRecipeDetail";
 import type { IRecipeListItem } from "@/lib/interfaces/IRecipeListItem";
@@ -105,4 +109,35 @@ export async function getRecipe(id: string): Promise<IRecipeDetail> {
   }
 
   return (await response.json()) as IRecipeDetail;
+}
+
+export async function filterRecipes(
+  filters: FilterRecipesDTO,
+): Promise<IRecipeListItem[]> {
+  const session = await auth0.getSession();
+
+  if (session === null) {
+    throw new Error("You are not authorized!");
+  }
+
+  const token = session.tokenSet.accessToken;
+
+  const response = await fetch(`${baseUrl}/filter`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(filters),
+  });
+
+  if (!response.ok) {
+    throw new Error("Failed to filter recipes");
+  }
+
+  const data = (await response.json()) as IRecipeListItem[];
+
+  console.log(data);
+
+  return data;
 }
