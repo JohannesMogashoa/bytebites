@@ -19,7 +19,7 @@ export const UpdateRecipeSchema = z.object({
   description: z.string(),
   ingredients: z.string(),
   steps: z.string(),
-  cookingTime: z.number(),
+  cookingTime: z.coerce.number(),
   dietaryTags: z.string(),
 });
 

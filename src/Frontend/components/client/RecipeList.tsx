@@ -16,6 +16,7 @@ import { Button } from "components/ui/button";
 import CreateRecipe from "./CreateRecipe";
 import type { IRecipeListItem } from "lib/interfaces/IRecipeListItem";
 import UpdateRecipe from "./UpdateRecipe";
+import { deleteRecipeById } from "@/server/create-recipe";
 import moment from "moment";
 
 type RecipeListProps = {
@@ -34,8 +35,9 @@ const RecipeList = ({ recipes }: RecipeListProps) => {
   };
 
   const deleteRecipe = async (id: string) => {
+    console.log(id);
     try {
-      await deleteRecipe(id);
+      await deleteRecipeById(id);
       // Optionally, you can refresh the recipe list or show a success message
     } catch (error) {
       console.error("Failed to delete recipe:", error);

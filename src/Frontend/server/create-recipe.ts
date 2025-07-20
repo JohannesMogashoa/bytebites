@@ -12,15 +12,19 @@ const baseUrl = `${env.BACKEND_API_URL}/api/recipes`;
 export async function createRecipe(
   data: CreateRecipeDTO,
 ): Promise<IRecipeDetail> {
-  const token = await auth0.getAccessToken();
+  const session = await auth0.getSession();
 
-  console.log(token);
+  if (session === null) {
+    throw new Error("You are not authorized!");
+  }
+
+  const token = session.tokenSet.accessToken;
 
   const response = await fetch(baseUrl, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${token.token}`,
+      Authorization: `Bearer ${token}`,
     },
     body: JSON.stringify(data),
   });
@@ -36,10 +40,18 @@ export async function updateRecipe(
   id: string,
   data: UpdateRecipeDTO,
 ): Promise<boolean> {
+  const session = await auth0.getSession();
+
+  if (session === null) {
+    throw new Error("You are not authorized!");
+  }
+
+  const token = session.tokenSet.accessToken;
   const response = await fetch(`${baseUrl}/${id}`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
     },
     body: JSON.stringify(data),
   });
@@ -51,14 +63,28 @@ export async function updateRecipe(
   return response.ok; // Return true if the update was successful
 }
 
-export async function deleteRecipe(id: string): Promise<void> {
+export async function deleteRecipeById(id: string): Promise<boolean> {
+  const session = await auth0.getSession();
+
+  if (session === null) {
+    throw new Error("You are not authorized!");
+  }
+
+  const token = session.tokenSet.accessToken;
+
   const response = await fetch(`${baseUrl}/${id}`, {
     method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
   });
 
   if (!response.ok) {
     throw new Error("Failed to delete recipe");
   }
+
+  return response.ok;
 }
 
 export async function getRecipies(): Promise<IRecipeListItem[]> {
