@@ -12,3 +12,5 @@ Frontend URL: https://bytebites.johannesmogashoa.co.za
 ### Setup
 
 ### Usage
+
+![Benchmark](benchmark.png)

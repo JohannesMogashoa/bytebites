@@ -1,0 +1,37 @@
+﻿services:
+  db:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: bytebites-db
+    environment:
+        - ACCEPT_EULA=Y
+        - SA_PASSWORD=#Johannes2023!
+    ports:
+      - "1433:1433"
+    networks:
+      - bytebites-network
+    volumes:
+      - sqlserverdata:/var/opt/mssql
+    
+  bytebites:
+    image: bytebites
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: bytebites-api
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Server=db;Database=ByteBites;User Id=sa;Password=#Johannes2023!;TrustServerCertificate=True;
+    ports:
+      - "8110:8110"
+      - "8111:8111"
+    depends_on:
+      - db
+    networks:
+      - bytebites-network
+
+networks:
+  bytebites-network:
+    driver: bridge
+    
+volumes:
+  sqlserverdata:

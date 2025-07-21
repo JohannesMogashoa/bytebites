@@ -16,13 +16,14 @@ RUN dotnet publish "ByteBites.csproj" -c Release -o /app/publish /p:UseAppHost=f
 # Stage 2: Create the final runtime image
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS final
 WORKDIR /app
-EXPOSE 8080
+EXPOSE 8110
+EXPOSE 8111
 
 # Copy the published application from the build stage
 COPY --from=build /app/publish .
 
 # Set environment variables for ASP.NET Core
-ENV ASPNETCORE_URLS=http://+:8080
+ENV ASPNETCORE_URLS=http://+:8110;https://+:8111
 ENV ASPNETCORE_ENVIRONMENT=Development
 
 ENTRYPOINT ["dotnet", "ByteBites.dll"]

@@ -41,7 +41,8 @@ builder.Services.AddSingleton<SoftDeleteInterceptor>();
 
 builder.Services.AddDbContext<ApplicationDbContext>((sp, options) =>
 {
-    options.UseInMemoryDatabase("ByteBitesDb");
+    // options.UseInMemoryDatabase("ByteBitesDb");
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
     options.AddInterceptors(
         sp.GetRequiredService<AuditingInterceptor>(),
         sp.GetRequiredService<SoftDeleteInterceptor>());
@@ -95,7 +96,7 @@ if (app.Environment.IsDevelopment())
         try
         {
             var context = services.GetRequiredService<ApplicationDbContext>();
-            //context.Database.Migrate(); // Apply pending migrations
+            context.Database.Migrate(); // Apply pending migrations
             // Seed data might need to be adjusted if it implies a user ID for seeded recipes
             SeedData.Initialize(services);
         }
