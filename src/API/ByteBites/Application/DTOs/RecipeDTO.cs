@@ -36,4 +36,9 @@ public static class RecipeDtoExtensions
             UserId = recipe.UserId,
         };
     }
+    
+    public static IEnumerable<RecipeDto> ToDtos(this IEnumerable<Domain.Recipe> recipes)
+    {
+        return recipes.Select(recipe => recipe.ToDto());
+    }
 }

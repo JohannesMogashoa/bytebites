@@ -24,7 +24,8 @@ public static class SeedData
                     Ingredients = "Ground beef, diced tomatoes, onion, garlic, pasta, olive oil, basil, oregano, salt, pepper.",
                     Steps = "1. Brown beef. 2. Sauté onion and garlic. 3. Add tomatoes and seasonings, simmer. 4. Cook pasta. 5. Combine and serve.",
                     CookingTime = 45,
-                    DietaryTags = "Non-Vegetarian, Italian"
+                    DietaryTags = "Non-Vegetarian, Italian",
+                    Description = "A traditional Italian pasta dish with a rich meat sauce."
                 },
                 new Recipe
                 {
@@ -32,7 +33,8 @@ public static class SeedData
                     Ingredients = "Kidney beans, black beans, corn, diced tomatoes, bell peppers, onion, chili powder, cumin, vegetable broth.",
                     Steps = "1. Sauté onion and bell peppers. 2. Add beans, corn, tomatoes, spices, and broth. 3. Simmer for 30 minutes.",
                     CookingTime = 50,
-                    DietaryTags = "Vegetarian, Vegan, Gluten-Free"
+                    DietaryTags = "Vegetarian, Vegan, Gluten-Free",
+                    Description = "A hearty and spicy chili packed with vegetables and beans."
                 },
                 new Recipe
                 {
@@ -40,7 +42,8 @@ public static class SeedData
                     Ingredients = "Chicken breast, broccoli, carrots, bell peppers, soy sauce, ginger, garlic, rice, sesame oil.",
                     Steps = "1. Cook rice. 2. Stir-fry chicken. 3. Add vegetables, ginger, garlic. 4. Add soy sauce. 5. Serve over rice.",
                     CookingTime = 30,
-                    DietaryTags = "Non-Vegetarian, Asian"
+                    DietaryTags = "Non-Vegetarian, Asian",
+                    Description = "A quick and easy stir-fry with tender chicken and fresh vegetables."
                 }
             );
             context.SaveChanges();

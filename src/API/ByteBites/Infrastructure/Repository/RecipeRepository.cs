@@ -114,4 +114,15 @@ public class RecipeRepository(ApplicationDbContext dbContext) : IRecipeRepositor
 
         return query;
     }
+
+    public async Task<IEnumerable<Recipe>> GetUserRecipes(string userId)
+    {
+        // Simulate asynchronous operation
+        await Task.Delay(100);
+        
+        // Return recipes created by the specified user, filtering out soft-deleted ones
+        return await dbContext.Recipes
+            .Where(r => r.CreatedBy == userId)
+            .ToListAsync();
+    }
 }

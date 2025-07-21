@@ -11,4 +11,5 @@ public interface IRecipeRepository
     Task UpdateRecipe(Recipe recipe);
     Task DeleteRecipe(Guid id);
     Task<IEnumerable<Recipe>> FilterRecipes(FilterRecipeDto filter);
+    Task<IEnumerable<Recipe>> GetUserRecipes(string userId);
 }

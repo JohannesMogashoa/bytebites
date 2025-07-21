@@ -11,7 +11,7 @@ public class FilterRecipeEndpoint : IEndpoint
             {
                 var recipes = await recipeRepository.FilterRecipes(filter);
 
-                return Results.Ok(recipes);
+                return Results.Ok(recipes.ToListItemDtos());
             })
             .WithTags("Recipes")
             .WithName("FilterRecipes");

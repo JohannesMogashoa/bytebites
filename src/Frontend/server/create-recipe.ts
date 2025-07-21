@@ -40,10 +40,7 @@ export async function createRecipe(
   return (await response.json()) as IRecipeDetail;
 }
 
-export async function updateRecipe(
-  id: string,
-  data: UpdateRecipeDTO,
-): Promise<boolean> {
+export async function updateRecipe(data: UpdateRecipeDTO): Promise<boolean> {
   const session = await auth0.getSession();
 
   if (session === null) {
@@ -51,7 +48,7 @@ export async function updateRecipe(
   }
 
   const token = session.tokenSet.accessToken;
-  const response = await fetch(`${baseUrl}/${id}`, {
+  const response = await fetch(`${baseUrl}/${data.id}`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
@@ -137,7 +134,29 @@ export async function filterRecipes(
 
   const data = (await response.json()) as IRecipeListItem[];
 
-  console.log(data);
+  return data;
+}
 
+export async function getUserRecipes(userId: string): Promise<IRecipeDetail[]> {
+  const session = await auth0.getSession();
+
+  if (session === null) {
+    throw new Error("You are not authorized!");
+  }
+
+  const token = session.tokenSet.accessToken;
+
+  const response = await fetch(`${baseUrl}/user/${userId}`, {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  if (!response.ok) {
+    throw new Error("Failed to filter recipes");
+  }
+
+  const data = (await response.json()) as IRecipeDetail[];
   return data;
 }
