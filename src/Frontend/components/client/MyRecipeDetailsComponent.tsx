@@ -1,14 +1,13 @@
 "use client";
 
 import { Card, CardContent, CardHeader } from "../ui/card";
-import React, { useEffect } from "react";
 
 import { Button } from "../ui/button";
 import type { IRecipeDetail } from "@/lib/interfaces/IRecipeDetail";
+import React from "react";
 import { UpdateRecipeButton } from "./UpdateRecipe";
 import { deleteRecipeById } from "@/server/create-recipe";
 import moment from "moment";
-import { useRecipeStore } from "@/providers/recipes-store-provider";
 
 const MyRecipeDetailsComponent = ({
   recipies,

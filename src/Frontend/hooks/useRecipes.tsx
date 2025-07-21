@@ -1,6 +1,5 @@
 "use client";
 
-import Error from "next/error";
 import { useCallback, useEffect, useRef } from "react";
 import { filterRecipes } from "@/server/create-recipe";
 import { useRecipeStore } from "@/providers/recipes-store-provider";
@@ -46,11 +45,7 @@ export const useRecipes = (): UseRecipesHook => {
         const fetchedRecipes = await filterRecipes(currentFilters);
         setRecipes(fetchedRecipes);
       } catch (err) {
-        if (err instanceof Error) {
-          setError(err.message);
-        } else {
-          setError("An unknown error occurred.");
-        }
+        setError("An unknown error occurred.");
         console.error("Failed to filter recipes:", err);
       } finally {
         setLoading(false);

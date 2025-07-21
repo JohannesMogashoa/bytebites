@@ -22,7 +22,7 @@ export const RecipeListingPageComponent = () => {
     fetchRecipes, // Expose for manual refetching (e.g., a "Refresh" button)
   } = useRecipes();
 
-  const [localFilters, setLocalFilters] = useState<FilterRecipesDTO>(filters);
+  const [, setLocalFilters] = useState<FilterRecipesDTO>(filters);
 
   useEffect(() => {
     setLocalFilters(filters);
